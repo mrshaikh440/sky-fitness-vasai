@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sky Fitness Gym | Vasai West - Train Like a Beast</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    
+    <!-- Google Fonts: Bebas Neue (for bold headings) and Inter (for text) -->
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+
+    <!-- AOS Animation CSS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'neon-blue': '#00E5FF',
+                        'dark-gray': '#121212',
+                        'light-gray': '#2A2A2A',
+                    },
+                    fontFamily: {
+                        'bebas': ['"Bebas Neue"', 'cursive'],
+                        'inter': ['"Inter"', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #0a0a0a;
+            color: #ffffff;
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+        }
+
+        .heading-font {
+            font-family: 'Bebas Neue', cursive;
+            letter-spacing: 2px;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #111;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #00E5FF;
+        }
+
+        /* Hero Image Overlay */
+        .hero-bg {
+            background: linear-gradient(rgba(10, 10, 10, 0.8), rgba(10, 10, 10, 0.9)), 
+                        url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80') center/cover no-repeat fixed;
+        }
+
+        /* Neon Glow Effects */
+        .glow-text {
+            text-shadow: 0 0 10px rgba(0, 229, 255, 0.5);
+        }
+        
+        .btn-neon {
+            background: transparent;
+            color: #00E5FF;
+            border: 2px solid #00E5FF;
+            box-shadow: 0 0 10px rgba(0, 229, 255, 0.2), inset 0 0 10px rgba(0, 229, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+        .btn-neon:hover {
+            background: #00E5FF;
+            color: #000;
+            box-shadow: 0 0 20px rgba(0, 229, 255, 0.6), inset 0 0 10px rgba(0, 229, 255, 0.4);
+            transform: translateY(-3px);
+        }
+
+        .btn-solid-neon {
+            background: #00E5FF;
+            color: #000;
+            box-shadow: 0 0 15px rgba(0, 229, 255, 0.4);
+            transition: all 0.3s ease;
+        }
+        .btn-solid-neon:hover {
+            box-shadow: 0 0 25px rgba(0, 229, 255, 0.8);
+            transform: scale(1.05);
+        }
+
+        /* Card Hover Effects (Beast Mode) */
+        .feature-card {
+            border-bottom: 4px solid transparent;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .feature-card:hover {
+            transform: translateY(-15px) scale(1.02);
+            border-bottom: 4px solid #00E5FF;
+            background-color: #1a1a1a;
+        }
+        .feature-card:hover i {
+            color: #00E5FF;
+            transform: scale(1.2);
+        }
+        .feature-card i {
+            transition: all 0.3s ease;
+        }
+
+        /* --- Bhaari Animations --- */
+        
+        /* 1. Splash Screen Loader */
+        #preloader {
+            position: fixed;
+            inset: 0;
+            background-color: #050505;
+            z-index: 99999;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: transform 0.8s cubic-bezier(0.77, 0, 0.175, 1), opacity 0.8s ease;
+        }
+        .preloader-hidden {
+            transform: translateY(-100%);
+            opacity: 0;
+            pointer-events: none;
+        }
+        .loader-dumbbell {
+            font-size: 6rem;
+            color: #00E5FF;
+            animation: pump 1s infinite alternate cubic-bezier(0.4, 0, 0.2, 1);
+            filter: drop-shadow(0 0 20px rgba(0, 229, 255, 0.6));
+        }
+        @keyframes pump {
+            0% { transform: scale(0.8) rotate(-15deg); }
+            100% { transform: scale(1.2) rotate(15deg); }
+        }
+        .loader-text {
+            margin-top: 20px;
+            color: white;
+            font-size: 2rem;
+            letter-spacing: 8px;
+            animation: pulse-text 1.5s infinite;
+        }
+        @keyframes pulse-text {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; filter: drop-shadow(0 0 10px white); }
+        }
+
+        /* 2. Moving Marquee Strip */
+        .marquee-wrapper {
+            background: #00E5FF;
+            overflow: hidden;
+            white-space: nowrap;
+            padding: 12px 0;
+            transform: rotate(-2deg) scale(1.05); /* Tilted aggressive look */
+            margin-top: 2rem;
+            box-shadow: 0 0 20px rgba(0,229,255,0.3);
+            border-top: 4px solid #fff;
+            border-bottom: 4px solid #fff;
+        }
+        .marquee-content {
+            display: inline-block;
+            font-family: 'Bebas Neue', cursive;
+            font-size: 1.8rem;
+            color: #000;
+            letter-spacing: 3px;
+            animation: marquee 15s linear infinite;
+        }
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); } 
+        }
+
+        /* Mobile Menu */
+        #mobile-menu {
+            transition: max-height 0.3s ease-out;
+            max-height: 0;
+            overflow: hidden;
+        }
+        #mobile-menu.open {
+            max-height: 400px; /* Expand completely */
+        }
+        
+        /* Anti-Copy CSS */
+        .no-select {
+            -webkit-user-select: none; /* Safari */
+            -moz-user-select: none; /* Firefox */
+            -ms-user-select: none; /* IE10+/Edge */
+            user-select: none; /* Standard */
+        }
+    </style>
+</head>
+<body class="antialiased no-select" oncontextmenu="return false;">
+
+    <!-- -->
+    <div id="preloader">
+        <i class="fa-solid fa-dumbbell loader-dumbbell"></i>
+        <h2 class="heading-font loader-text">BEAST MODE ON</h2>
+    </div>
+
+    <!-- -->
+    <nav class="fixed w-full z-50 top-0 bg-[#0a0a0a]/95 backdrop-blur-md border-b border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <!-- Logo -->
+                <div class="flex-shrink-0 flex items-center gap-2 cursor-pointer">
+                    <i class="fa-solid fa-dumbbell text-3xl text-neon-blue"></i>
+                    <div>
+                        <h1 class="heading-font text-3xl text-white tracking-wider leading-none">SKY FITNESS</h1>
+                        <span class="text-[10px] text-neon-blue uppercase tracking-[0.2em] font-bold">Vasai West</span>
+                    </div>
+                </div>
+
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex space-x-8 items-center">
+                    <a href="#about" class="text-sm font-semibold text-gray-300 hover:text-neon-blue transition uppercase tracking-widest">About</a>
+                    <a href="#facilities" class="text-sm font-semibold text-gray-300 hover:text-neon-blue transition uppercase tracking-widest">Facilities</a>
+                    <a href="#pricing" class="text-sm font-semibold text-gray-300 hover:text-neon-blue transition uppercase tracking-widest">Plans</a>
+                    <a href="#contact" class="btn-solid-neon px-6 py-2.5 font-bold uppercase tracking-wider rounded-sm text-sm">
+                        Free Trial
+                    </a>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-btn" class="text-white hover:text-neon-blue focus:outline-none">
+                        <i class="fa-solid fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Panel -->
+        <div id="mobile-menu" class="md:hidden bg-[#111] border-b border-gray-800">
+            <div class="px-4 pt-2 pb-6 space-y-2">
+                <a href="#about" class="block px-3 py-3 text-base font-medium text-gray-300 hover:text-neon-blue hover:bg-gray-900 rounded-md">About</a>
+                <a href="#facilities" class="block px-3 py-3 text-base font-medium text-gray-300 hover:text-neon-blue hover:bg-gray-900 rounded-md">Facilities</a>
+                <a href="#pricing" class="block px-3 py-3 text-base font-medium text-gray-300 hover:text-neon-blue hover:bg-gray-900 rounded-md">Plans</a>
+                <a href="#contact" class="block mt-4 text-center btn-solid-neon px-6 py-3 font-bold uppercase tracking-wider rounded-sm text-sm">Get a Free Trial</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- -->
+    <header id="about" class="hero-bg min-h-screen flex items-center pt-20 relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full z-20">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                
+                <div data-aos="fade-right" data-aos-duration="1000">
+                    <div class="inline-block bg-neon-blue/10 border border-neon-blue/30 px-4 py-1.5 rounded-full mb-6">
+                        <span class="text-neon-blue text-xs font-bold tracking-widest uppercase flex items-center gap-2">
+                            <span class="w-2 h-2 rounded-full bg-neon-blue animate-pulse"></span> Open 24 Hours in Vasai
+                        </span>
+                    </div>
+                    
+                    <h1 class="heading-font text-6xl sm:text-7xl lg:text-8xl text-white leading-[0.9] mb-6 glow-text">
+                        ELEVATE YOUR <br> 
+                        <span class="text-transparent -webkit-text-stroke text-stroke-white text-gray-500" style="-webkit-text-stroke: 1px #fff;">FITNESS</span> GAME
+                    </h1>
+                    
+                    <p class="text-gray-400 text-lg mb-8 max-w-lg border-l-2 border-neon-blue pl-4">
+                        Rated 5.0 ⭐ by Vasai's fitness community. Premium equipment, expert personal trainers, and a beast-mode atmosphere. No excuses.
+                    </p>
+                    
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <a href="#contact" class="btn-solid-neon px-8 py-4 text-center font-bold uppercase tracking-widest rounded-sm text-sm">
+                            Join The Club
+                        </a>
+                        <a href="#pricing" class="btn-neon px-8 py-4 text-center font-bold uppercase tracking-widest rounded-sm text-sm">
+                            View Plans
+                        </a>
+                    </div>
+
+                    <div class="mt-12 flex gap-8 items-center">
+                        <div>
+                            <h4 class="text-3xl heading-font text-white">5.0<i class="fa-solid fa-star text-neon-blue text-lg ml-1"></i></h4>
+                            <p class="text-xs text-gray-500 uppercase tracking-wider font-bold">Google Reviews</p>
+                        </div>
+                        <div class="w-px h-10 bg-gray-800"></div>
+                        <div>
+                            <h4 class="text-3xl heading-font text-white">24/7</h4>
+                            <p class="text-xs text-gray-500 uppercase tracking-wider font-bold">Open Everyday</p>
+                        </div>
+                        <div class="w-px h-10 bg-gray-800"></div>
+                        <div>
+                            <h4 class="text-3xl heading-font text-white">100+</h4>
+                            <p class="text-xs text-gray-500 uppercase tracking-wider font-bold">Active Members</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Animated Tilted Marquee Strip -->
+        <div class="absolute bottom-10 left-0 w-full z-10 hidden md:block">
+            <div class="marquee-wrapper">
+                <div class="marquee-content">
+                    NO EXCUSES &nbsp; /// &nbsp; TRAIN LIKE A BEAST &nbsp; /// &nbsp; 24/7 OPEN IN VASAI &nbsp; /// &nbsp; PREMIUM EQUIPMENT &nbsp; /// &nbsp; JOIN THE CLUB &nbsp; /// &nbsp; NO EXCUSES &nbsp; /// &nbsp; TRAIN LIKE A BEAST &nbsp; /// &nbsp; 24/7 OPEN IN VASAI &nbsp; /// &nbsp; PREMIUM EQUIPMENT &nbsp; /// &nbsp; JOIN THE CLUB &nbsp; /// &nbsp;
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- -->
+    <div class="bg-neon-blue text-black py-4 border-y border-gray-700 relative z-20">
+        <div class="max-w-7xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center text-sm font-bold tracking-widest uppercase gap-4 text-center md:text-left">
+            <div class="flex items-center justify-center gap-2">
+                <i class="fa-solid fa-location-dot"></i> 2nd Floor, Hira Niketan, Above Wellness Medical, Station Road, Vasai (W)
+            </div>
+            <a href="#contact" class="flex items-center justify-center gap-2 cursor-pointer hover:scale-105 transition">
+                <i class="fa-brands fa-whatsapp text-lg"></i> Send Enquiry on WhatsApp
+            </a>
+        </div>
+    </div>
+
+    <!-- -->
+    <section id="facilities" class="py-24 bg-[#0a0a0a] relative">
+        <!-- Abstract BG shape -->
+        <div class="absolute top-0 right-0 w-96 h-96 bg-neon-blue/5 rounded-full blur-3xl -z-10"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <p class="text-neon-blue text-sm font-bold tracking-[0.3em] uppercase mb-2">Our Arsenal</p>
+                <h2 class="heading-font text-5xl md:text-6xl text-white">Premium Facilities</h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Facility 1 -->
+                <div class="feature-card bg-light-gray p-8 rounded-sm text-center" data-aos="fade-up" data-aos-delay="100">
+                    <div class="w-16 h-16 mx-auto bg-dark-gray rounded-full flex items-center justify-center mb-6 shadow-inner border border-neon-blue/30">
+                        <i class="fa-solid fa-dumbbell text-2xl text-neon-blue drop-shadow-[0_0_8px_rgba(0,229,255,0.4)]"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3 uppercase tracking-wider">Weight Training</h3>
+                    <p class="text-gray-400 text-sm">Top-tier resistance machines and heavy free weights for muscle building.</p>
+                </div>
+
+                <!-- Facility 2 -->
+                <div class="feature-card bg-light-gray p-8 rounded-sm text-center" data-aos="fade-up" data-aos-delay="200">
+                    <div class="w-16 h-16 mx-auto bg-dark-gray rounded-full flex items-center justify-center mb-6 shadow-inner border border-neon-blue/30">
+                        <i class="fa-solid fa-person-running text-2xl text-neon-blue drop-shadow-[0_0_8px_rgba(0,229,255,0.4)]"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3 uppercase tracking-wider">Cardio Zone</h3>
+                    <p class="text-gray-400 text-sm">Modern treadmills, cross-trainers, and bikes for fat loss and endurance.</p>
+                </div>
+
+                <!-- Facility 3 -->
+                <div class="feature-card bg-light-gray p-8 rounded-sm text-center" data-aos="fade-up" data-aos-delay="300">
+                    <div class="w-16 h-16 mx-auto bg-dark-gray rounded-full flex items-center justify-center mb-6 shadow-inner border border-neon-blue/30">
+                        <i class="fa-solid fa-hot-tub-person text-2xl text-neon-blue drop-shadow-[0_0_8px_rgba(0,229,255,0.4)]"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3 uppercase tracking-wider">Steam Room</h3>
+                    <p class="text-gray-400 text-sm">Relax and recover post-workout in our hygienic, hot steam facility.</p>
+                </div>
+
+                <!-- Facility 4 -->
+                <div class="feature-card bg-light-gray p-8 rounded-sm text-center" data-aos="fade-up" data-aos-delay="400">
+                    <div class="w-16 h-16 mx-auto bg-dark-gray rounded-full flex items-center justify-center mb-6 shadow-inner border border-neon-blue/30">
+                        <i class="fa-solid fa-users text-2xl text-neon-blue drop-shadow-[0_0_8px_rgba(0,229,255,0.4)]"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3 uppercase tracking-wider">Zumba & Yoga</h3>
+                    <p class="text-gray-400 text-sm">Group fitness classes led by experts for agility, flexibility, and fun.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- -->
+    <section id="pricing" class="py-24 bg-[#111] border-y border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <h2 class="heading-font text-5xl md:text-6xl text-white mb-4">Membership Plans</h2>
+                <p class="text-gray-400 max-w-2xl mx-auto">Affordable pricing for the best equipment in Vasai. No hidden fees. Invest in yourself.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+                
+                <!-- 1 Month Plan -->
+                <div class="bg-dark-gray border border-gray-800 p-8 rounded-sm text-center hover:border-gray-500 transition duration-300 relative" data-aos="fade-up" data-aos-delay="100">
+                    <h3 class="text-2xl heading-font text-white tracking-widest mb-2">1 Month</h3>
+                    <p class="text-gray-500 text-sm mb-6 uppercase tracking-wider font-bold">Kickstarter</p>
+                    <div class="text-4xl heading-font text-neon-blue mb-6">₹2,500</div>
+                    <ul class="text-gray-400 text-sm space-y-4 mb-8 text-left max-w-[200px] mx-auto">
+                        <li><i class="fa-solid fa-check text-neon-blue mr-2"></i> Full Gym Access</li>
+                        <li><i class="fa-solid fa-check text-neon-blue mr-2"></i> Cardio Area</li>
+                        <li><i class="fa-solid fa-xmark text-gray-600 mr-2"></i> Personal Training</li>
+                    </ul>
+                    <a href="#contact" class="block w-full py-3 border border-gray-600 text-gray-300 hover:bg-gray-800 font-bold uppercase tracking-wider text-sm transition">Select Plan</a>
+                </div>
+
+                <!-- 3 Months Plan (Highlighted) -->
+                <div class="bg-light-gray border-2 border-neon-blue p-8 rounded-sm text-center transform md:-translate-y-4 shadow-[0_0_30px_rgba(0,229,255,0.15)] relative" data-aos="fade-up" data-aos-delay="200">
+                    <div class="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-neon-blue text-black px-4 py-1 text-xs font-bold uppercase tracking-widest">Most Popular</div>
+                    <h3 class="text-2xl heading-font text-white tracking-widest mb-2">3 Months</h3>
+                    <p class="text-gray-500 text-sm mb-6 uppercase tracking-wider font-bold">Transformation</p>
+                    <div class="text-5xl heading-font text-neon-blue mb-6">₹6,500</div>
+                    <ul class="text-gray-300 text-sm space-y-4 mb-8 text-left max-w-[200px] mx-auto">
+                        <li><i class="fa-solid fa-check text-neon-blue mr-2"></i> Full Gym Access</li>
+                        <li><i class="fa-solid fa-check text-neon-blue mr-2"></i> Cardio & Steam</li>
+                        <li><i class="fa-solid fa-check text-neon-blue mr-2"></i> Diet Guidance</li>
+                    </ul>
+                    <a href="#contact" class="block w-full py-3 btn-solid-neon font-bold uppercase tracking-wider text-sm">Select Plan</a>
+                </div>
+
+                <!-- 1 Year Plan -->
+                <div class="bg-dark-gray border border-gray-800 p-8 rounded-sm text-center hover:border-gray-500 transition duration-300" data-aos="fade-up" data-aos-delay="300">
+                    <h3 class="text-2xl heading-font text-white tracking-widest mb-2">1 Year</h3>
+                    <p class="text-gray-500 text-sm mb-6 uppercase tracking-wider font-bold">The Beast</p>
+                    <div class="text-4xl heading-font text-neon-blue mb-2">₹12,000</div>
+                    <p class="text-green-500 text-xs mb-6 font-bold tracking-wider">Save ₹18,000!</p>
+                    <ul class="text-gray-400 text-sm space-y-4 mb-8 text-left max-w-[200px] mx-auto">
+                        <li><i class="fa-solid fa-check text-neon-blue mr-2"></i> 24/7 Access</li>
+                        <li><i class="fa-solid fa-check text-neon-blue mr-2"></i> Free Zumba/Yoga</li>
+                        <li><i class="fa-solid fa-check text-neon-blue mr-2"></i> Freeze Option (1 Month)</li>
+                    </ul>
+                    <a href="#contact" class="block w-full py-3 border border-gray-600 text-gray-300 hover:bg-gray-800 font-bold uppercase tracking-wider text-sm transition">Select Plan</a>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- -->
+    <section id="contact" class="py-24 bg-[#0a0a0a] relative overflow-hidden">
+        <div class="absolute left-0 bottom-0 w-96 h-96 bg-neon-blue/10 rounded-full blur-3xl -z-10"></div>
+        
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col lg:flex-row gap-16">
+                
+                <div class="flex-1" data-aos="fade-right">
+                    <h2 class="heading-font text-5xl text-white mb-6">Book Your Free Trial Workout</h2>
+                    <p class="text-gray-400 mb-8 text-lg">Come check out the equipment, meet the trainers, and experience the vibe before you commit.</p>
+                    
+                    <div class="space-y-6">
+                        <div class="flex items-start gap-4">
+                            <div class="w-12 h-12 bg-light-gray rounded flex items-center justify-center flex-shrink-0 border border-gray-800 text-neon-blue">
+                                <i class="fa-solid fa-location-dot"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-white font-bold uppercase tracking-wider mb-1 text-sm">Location</h4>
+                                <p class="text-gray-400 text-sm">2nd Floor, Hira Niketan, Above Wellness Medical, Station Road, Vasai West, Palghar-401202.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-4">
+                            <div class="w-12 h-12 bg-light-gray rounded flex items-center justify-center flex-shrink-0 border border-gray-800 text-neon-blue">
+                                <i class="fa-solid fa-clock"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-white font-bold uppercase tracking-wider mb-1 text-sm">Hours</h4>
+                                <p class="text-gray-400 text-sm">Open 24 Hours. 7 Days a week. No Excuses.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex-1" data-aos="fade-left">
+                    <div class="bg-[#111] p-8 border border-gray-800 shadow-2xl relative">
+                        <!-- Standard HTML Form (100% Reliable for Web3Forms) -->
+                        <form action="https://api.web3forms.com/submit" method="POST" class="space-y-5">
+                            
+                            <!-- API Key - Owner's email will be connected here -->
+                            <!-- ADD YOUR WEB3FORMS ACCESS KEY IN VALUE BELOW -->
+                            <input type="hidden" name="access_key" value="YOUR_ACCESS_KEY_HERE">
+                            <input type="hidden" name="subject" value="New Free Trial Request - Sky Fitness Gym">
+                            <input type="hidden" name="from_name" value="Sky Fitness Website">
+                            
+                            <div>
+                                <label class="block text-xs font-bold text-gray-500 uppercase tracking-widest mb-2">Full Name</label>
+                                <input type="text" name="name" required class="w-full bg-[#1a1a1a] text-white border border-gray-800 p-4 text-sm outline-none focus:border-neon-blue transition" placeholder="Enter your name">
+                            </div>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                                <div>
+                                    <label class="block text-xs font-bold text-gray-500 uppercase tracking-widest mb-2">Phone Number</label>
+                                    <input type="tel" name="phone" required class="w-full bg-[#1a1a1a] text-white border border-gray-800 p-4 text-sm outline-none focus:border-neon-blue transition" placeholder="+91 XXXXX XXXXX">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-bold text-gray-500 uppercase tracking-widest mb-2">Interested In</label>
+                                    <select name="interest" class="w-full bg-[#1a1a1a] text-white border border-gray-800 p-4 text-sm outline-none focus:border-neon-blue transition appearance-none">
+                                        <option>Gym / Weight Training</option>
+                                        <option>Cardio & Weight Loss</option>
+                                        <option>Personal Training</option>
+                                        <option>Zumba / Group Classes</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- Spam Protection Honeypot -->
+                            <input type="checkbox" name="botcheck" class="hidden" style="display: none;">
+                            
+                            <!-- Optional Redirect after submission (Defaults to web3forms success page) -->
+                            <input type="hidden" name="redirect" value="https://web3forms.com/success">
+
+                            <button type="submit" class="w-full btn-solid-neon py-4 text-sm font-bold uppercase tracking-widest mt-4">
+                                Claim Free Trial
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- -->
+    <footer class="bg-black py-8 border-t border-gray-900 text-center relative z-20">
+        <div class="max-w-7xl mx-auto px-4">
+    <footer class="bg-black py-8 border-t border-gray-900 text-center relative z-20">
+        <div class="max-w-7xl mx-auto px-4">
+            <h2 class="heading-font text-3xl text-white tracking-widest mb-4">SKY FITNESS</h2>
+            <div class="flex justify-center gap-6 mb-6">
+                <a href="#" class="text-gray-500 hover:text-neon-blue transition"><i class="fa-brands fa-instagram text-xl"></i></a>
+                <a href="#" class="text-gray-500 hover:text-neon-blue transition"><i class="fa-brands fa-facebook text-xl"></i></a>
+                <a href="#" class="text-gray-500 hover:text-neon-blue transition"><i class="fa-brands fa-whatsapp text-xl"></i></a>
+            </div>
+            <p class="text-gray-600 text-xs tracking-wider">
+                &copy; 2026 Sky Fitness Gym, Vasai. Designed by <span class="text-gray-400 font-bold">Faisal Shaikh</span>.
+            </p>
+        </div>
+    </footer>
+
+    <!-- -->
+    <!-- AOS Animation Script -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        // Preloader Logic
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                document.getElementById('preloader').classList.add('preloader-hidden');
+            }, 1800); // 1.8 seconds ka heavy feel
+        });
+
+        // Initialize Scroll Animations
+        AOS.init({
+            once: true,
+            offset: 50,
+            duration: 800,
+            easing: 'ease-out-cubic',
+        });
+
+        // Mobile Menu Toggle
+        const mobileBtn = document.getElementById('mobile-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        mobileBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('open');
+            // Change Icon
+            const icon = mobileBtn.querySelector('i');
+            if(mobileMenu.classList.contains('open')) {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-xmark');
+            } else {
+                icon.classList.remove('fa-xmark');
+                icon.classList.add('fa-bars');
+            }
+        });
+
+        // Smooth Scrolling for Anchor Links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                mobileMenu.classList.remove('open'); // Close menu on click
+                const icon = mobileBtn.querySelector('i');
+                icon.classList.remove('fa-xmark');
+                icon.classList.add('fa-bars');
+
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Anti-Theft Security Scripts
+        
+        // 1. Disable Right Click (Context Menu)
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+            // Optional: Show a subtle message instead of native alert
+            console.log("Access Denied: Code is protected.");
+        });
+
+        // 2. Disable Keyboard Shortcuts (F12, Ctrl+Shift+I, Ctrl+U, Ctrl+S)
+        document.onkeydown = function(e) {
+            // Disable F12
+            if(e.keyCode == 123) {
+                return false;
+            }
+            // Disable Ctrl+Shift+I (Inspect)
+            if(e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)){
+                return false;
+            }
+            // Disable Ctrl+Shift+J (Console)
+            if(e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)){
+                return false;
+            }
+            // Disable Ctrl+U (View Source)
+            if(e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)){
+                return false;
+            }
+            // Disable Ctrl+S (Save Page)
+            if(e.ctrlKey && e.keyCode == 'S'.charCodeAt(0)){
+                e.preventDefault();
+                return false;
+            }
+            // Disable Ctrl+C (Copy)
+            if(e.ctrlKey && e.keyCode == 'C'.charCodeAt(0)){
+                return false;
+            }
+        };
+    </script>
+</body>
+</html>
